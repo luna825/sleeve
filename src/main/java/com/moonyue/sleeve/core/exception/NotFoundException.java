@@ -32,4 +32,14 @@ public class NotFoundException extends HttpException {
         this.code = code;
     }
 
+    @Override
+    public int getHttpCode() {
+        return this.httpCode;
+    }
+
+    @Override
+    public int getCode() {
+        return this.code;
+    }
+
 }

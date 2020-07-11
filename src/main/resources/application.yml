@@ -1,0 +1,9 @@
+spring:
+  mvc:
+    throw-exception-if-no-handler-found: true # 找不到url时抛出异常
+    static-path-pattern: /statics/**
+  profiles:
+    active: dev
+  jpa:
+    hibernate:
+      ddl-auto: none

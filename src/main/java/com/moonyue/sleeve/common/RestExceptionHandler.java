@@ -23,6 +23,7 @@ public class RestExceptionHandler {
     * */
     @ExceptionHandler(value = Exception.class)
     public UnifyResponseVO processException(Exception exception, HttpServletRequest request, HttpServletResponse response){
+        exception.printStackTrace();
         UnifyResponseVO result = new UnifyResponseVO(Code.INTERNAL_SERVER_ERROR.getCode(),
                 Code.INTERNAL_SERVER_ERROR.getZhDescription());
         response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());

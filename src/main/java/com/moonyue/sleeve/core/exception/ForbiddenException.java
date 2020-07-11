@@ -27,4 +27,14 @@ public class ForbiddenException extends HttpException {
         super(code, message);
         this.code = code;
     }
+    
+    @Override
+    public int getHttpCode() {
+        return this.httpCode;
+    }
+
+    @Override
+    public int getCode() {
+        return this.code;
+    }
 }
