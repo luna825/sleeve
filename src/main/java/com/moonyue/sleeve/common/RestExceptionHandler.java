@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolationException;
 
 import java.net.BindException;
 import java.util.HashMap;
@@ -80,6 +81,25 @@ public class RestExceptionHandler {
         result.setRequest(getSimpleRequest(request));
         result.setMessage(msg);
         result.setCode(Code.PARAMETER_ERROR.getCode());
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        return result;
+    }
+
+    /*
+    * ConstraintViolationException
+    * */
+    @ExceptionHandler(ConstraintViolationException.class)
+    public UnifyResponseVO processException(ConstraintViolationException exception, HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> msg =new HashMap<>();
+        exception.getConstraintViolations().forEach(error -> {
+            String message = error.getMessage();
+            String path = error.getPropertyPath().toString();
+            msg.put(StrUtil.toUnderlineCase(path), message);
+        });
+        UnifyResponseVO result = new UnifyResponseVO();
+        result.setRequest(getSimpleRequest(request));
+        result.setCode(Code.PARAMETER_ERROR.getCode());
+        result.setMessage(msg);
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         return result;
     }
