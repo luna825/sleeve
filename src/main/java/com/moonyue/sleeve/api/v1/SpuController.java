@@ -1,20 +1,19 @@
 package com.moonyue.sleeve.api.v1;
 
+import com.moonyue.sleeve.bo.PageCounter;
+import com.moonyue.sleeve.common.util.CommonUtil;
 import com.moonyue.sleeve.core.exception.NotFoundException;
 import com.moonyue.sleeve.model.Spu;
 import com.moonyue.sleeve.service.SpuService;
+import com.moonyue.sleeve.vo.PagingDozer;
 import com.moonyue.sleeve.vo.SpuSimplifyVO;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Positive;
-import java.util.List;
-import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("api/v1/spu")
@@ -30,12 +29,12 @@ public class SpuController {
     }
 
     @GetMapping("/latest")
-    public List<SpuSimplifyVO> getLatestSpuList(){
-        List<Spu> spuList = this.spuService.getLatestPagingSpu();
-        return spuList.stream().map(s-> {
-            SpuSimplifyVO vo = new SpuSimplifyVO();
-            BeanUtils.copyProperties(s, vo);
-            return vo;
-        }).collect(Collectors.toList());
+    public PagingDozer<Spu, SpuSimplifyVO> getLatestSpuList(
+            @RequestParam(defaultValue = "0") Integer start,
+            @RequestParam(defaultValue = "10") Integer count
+    ){
+        PageCounter pageCounter = CommonUtil.convertToPageParameter(start, count);
+        Page<Spu> spuList = this.spuService.getLatestPagingSpu(pageCounter.getPage(), pageCounter.getSize());
+        return new PagingDozer<>(spuList, SpuSimplifyVO.class);
     }
 }
