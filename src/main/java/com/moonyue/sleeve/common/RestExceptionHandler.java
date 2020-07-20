@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -100,6 +101,25 @@ public class RestExceptionHandler {
         result.setRequest(getSimpleRequest(request));
         result.setCode(Code.PARAMETER_ERROR.getCode());
         result.setMessage(msg);
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        return result;
+    }
+
+    /**
+     * MissingServletRequestParameterException
+     */
+    @ExceptionHandler({MissingServletRequestParameterException.class})
+    public UnifyResponseVO processException(MissingServletRequestParameterException exception, HttpServletRequest request, HttpServletResponse response) {
+        UnifyResponseVO result = new UnifyResponseVO();
+        result.setRequest(getSimpleRequest(request));
+
+        String errorMessage = CodeMessageConfiguration.getMessage(10150);
+        if (StrUtil.isBlank(errorMessage)) {
+            result.setMessage(exception.getMessage());
+        } else {
+            result.setMessage(errorMessage + exception.getParameterName());
+        }
+        result.setCode(Code.PARAMETER_ERROR.getCode());
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         return result;
     }
