@@ -1,6 +1,7 @@
 package com.moonyue.sleeve.api.v1;
 
 import com.github.dozermapper.core.DozerBeanMapperBuilder;
+import com.github.dozermapper.core.Mapper;
 import com.moonyue.sleeve.core.exception.NotFoundException;
 import com.moonyue.sleeve.model.Theme;
 import com.moonyue.sleeve.service.ThemeService;
@@ -36,7 +37,9 @@ public class ThemeController {
     }
 
     @GetMapping("name/{name}/with_spu")
-    public Theme getByNameWithSpu(@PathVariable String name){
-        return this.themeService.getByName(name).orElseThrow(() -> new NotFoundException(30003));
+    public ThemeSpuVO getByNameWithSpu(@PathVariable String name){
+        Theme theme = this.themeService.getByName(name).orElseThrow(() -> new NotFoundException(30003));
+        Mapper mapper = DozerBeanMapperBuilder.buildDefault();
+        return mapper.map(theme, ThemeSpuVO.class);
     }
 }

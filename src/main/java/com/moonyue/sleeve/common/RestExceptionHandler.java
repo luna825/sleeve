@@ -8,9 +8,11 @@ import com.moonyue.sleeve.core.exception.HttpException;
 import com.moonyue.sleeve.vo.UnifyResponseVO;
 import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -86,7 +88,7 @@ public class RestExceptionHandler {
         return result;
     }
 
-    /*
+    /**
     * ConstraintViolationException
     * */
     @ExceptionHandler(ConstraintViolationException.class)
@@ -123,4 +125,41 @@ public class RestExceptionHandler {
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         return result;
     }
+
+    /**
+     * HttpMessageNotReadableException
+     */
+    @ExceptionHandler({HttpMessageNotReadableException.class})
+    public UnifyResponseVO processException(HttpMessageNotReadableException exception, HttpServletRequest request, HttpServletResponse response) {
+        UnifyResponseVO result = new UnifyResponseVO();
+        result.setRequest(getSimpleRequest(request));
+        String errorMessage = CodeMessageConfiguration.getMessage(10170);
+        if (StrUtil.isBlank(errorMessage)) {
+            result.setMessage(exception.getMessage());
+        } else {
+            result.setMessage(errorMessage);
+        }
+        result.setCode(Code.PARAMETER_ERROR.getCode());
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        return result;
+    }
+
+    /**
+     * HttpMessageNotReadableException
+     */
+    @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
+    public UnifyResponseVO processException(HttpRequestMethodNotSupportedException exception, HttpServletRequest request, HttpServletResponse response) {
+        UnifyResponseVO result = new UnifyResponseVO();
+        result.setRequest(getSimpleRequest(request));
+        String errorMessage = CodeMessageConfiguration.getMessage(10080);
+        if (StrUtil.isBlank(errorMessage)) {
+            result.setMessage(exception.getMessage());
+        } else {
+            result.setMessage(errorMessage);
+        }
+        result.setCode(Code.METHOD_NOT_ALLOWED.getCode());
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        return result;
+    }
+
 }

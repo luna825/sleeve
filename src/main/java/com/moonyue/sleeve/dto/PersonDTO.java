@@ -1,12 +1,10 @@
 package com.moonyue.sleeve.dto;
 
-import com.moonyue.sleeve.common.validators.PasswordEqual;
+import com.moonyue.sleeve.dto.validators.PasswordEqual;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
-
-import javax.validation.constraints.Min;
 
 @Setter
 @Getter

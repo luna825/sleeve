@@ -1,4 +1,4 @@
-package com.moonyue.sleeve.common.validators;
+package com.moonyue.sleeve.dto.validators;
 
 import cn.hutool.core.util.StrUtil;
 import com.moonyue.sleeve.dto.PersonDTO;
