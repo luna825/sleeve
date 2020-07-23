@@ -131,6 +131,7 @@ public class RestExceptionHandler {
      */
     @ExceptionHandler({HttpMessageNotReadableException.class})
     public UnifyResponseVO processException(HttpMessageNotReadableException exception, HttpServletRequest request, HttpServletResponse response) {
+        exception.printStackTrace();
         UnifyResponseVO result = new UnifyResponseVO();
         result.setRequest(getSimpleRequest(request));
         String errorMessage = CodeMessageConfiguration.getMessage(10170);

@@ -29,3 +29,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### 相关密钥 ###
+/src/main/resources/config/application.yml

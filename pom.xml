@@ -66,6 +66,13 @@
             <version>6.5.0</version>
         </dependency>
 
+        <!-- jwt令牌库       -->
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>3.8.1</version>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
