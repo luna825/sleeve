@@ -42,4 +42,5 @@ public class ThemeController {
         Mapper mapper = DozerBeanMapperBuilder.buildDefault();
         return mapper.map(theme, ThemeSpuVO.class);
     }
+
 }

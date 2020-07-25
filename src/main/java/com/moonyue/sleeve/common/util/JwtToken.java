@@ -28,7 +28,7 @@ public class JwtToken {
         JwtToken.tokenExpiredIn = tokenExpiredIn;
     }
 
-    public Optional<Map<String, Claim>> getClaim(String token){
+    public static Optional<Map<String, Claim>> getClaim(String token){
         DecodedJWT decodedJWT;
 
         Algorithm algorithm = Algorithm.HMAC256(JwtToken.jwtKey);

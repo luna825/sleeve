@@ -1,5 +1,6 @@
 package com.moonyue.sleeve.api.v1;
 
+import com.moonyue.sleeve.core.annotations.ScopeLevel;
 import com.moonyue.sleeve.core.exception.NotFoundException;
 import com.moonyue.sleeve.model.Category;
 import com.moonyue.sleeve.model.GridCategory;

@@ -2,6 +2,7 @@ package com.moonyue.sleeve.api.v1;
 
 import com.moonyue.sleeve.bo.PageCounter;
 import com.moonyue.sleeve.common.util.CommonUtil;
+import com.moonyue.sleeve.core.annotations.ScopeLevel;
 import com.moonyue.sleeve.core.exception.NotFoundException;
 import com.moonyue.sleeve.model.Spu;
 import com.moonyue.sleeve.service.SpuService;

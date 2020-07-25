@@ -1,5 +1,6 @@
 package com.moonyue.sleeve.api.v1;
 
+import com.moonyue.sleeve.core.annotations.ScopeLevel;
 import com.moonyue.sleeve.core.exception.NotFoundException;
 import com.moonyue.sleeve.model.Banner;
 import com.moonyue.sleeve.service.BannerService;
@@ -21,6 +22,7 @@ public class BannerController {
     private BannerService bannerService;
 
     @GetMapping("/name/{name}")
+    @ScopeLevel()
     public Banner getByName(@PathVariable @NotBlank String name){
         Banner banner = bannerService.getByName(name);
         if(banner == null){
