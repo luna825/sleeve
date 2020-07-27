@@ -1,7 +1,9 @@
 package com.moonyue.sleeve.api.v1;
 
 
+import com.moonyue.sleeve.common.util.JwtToken;
 import com.moonyue.sleeve.core.exception.NotFoundException;
+import com.moonyue.sleeve.dto.TokenDTO;
 import com.moonyue.sleeve.dto.TokenGetDTO;
 import com.moonyue.sleeve.model.TestUser;
 import com.moonyue.sleeve.service.WxAuthenticationServer;
@@ -45,6 +47,14 @@ public class TokenController {
                 throw new NotFoundException(10003);
         }
         map.put("token", token);
+        return map;
+    }
+
+    @PostMapping("verify")
+    public Map<String, Boolean> verify(@RequestBody @Valid TokenDTO dto){
+        Map<String, Boolean> map = new HashMap<>();
+        Boolean isValid = JwtToken.verifyToken(dto.getToken());
+        map.put("is_valid", isValid);
         return map;
     }
 }

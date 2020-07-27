@@ -41,6 +41,17 @@ public class JwtToken {
         return Optional.of(decodedJWT.getClaims());
     }
 
+    public static Boolean verifyToken(String token){
+        Algorithm algorithm = Algorithm.HMAC256(JwtToken.jwtKey);
+        JWTVerifier jwtVerifier = JWT.require(algorithm).build();
+        try{
+            jwtVerifier.verify(token);
+        }catch (JWTVerificationException e){
+            return false;
+        }
+        return true;
+    }
+
     public static String makeToken(Long uid, Integer scope){
         return JwtToken.getToken(uid, scope);
     }

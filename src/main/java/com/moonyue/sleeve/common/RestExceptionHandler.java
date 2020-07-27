@@ -17,6 +17,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -159,6 +160,24 @@ public class RestExceptionHandler {
             result.setMessage(errorMessage);
         }
         result.setCode(Code.METHOD_NOT_ALLOWED.getCode());
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        return result;
+    }
+
+    /**
+     * MethodArgumentTypeMismatchException
+     */
+    @ExceptionHandler({MethodArgumentTypeMismatchException.class})
+    public UnifyResponseVO processException(MethodArgumentTypeMismatchException exception, HttpServletRequest request, HttpServletResponse response) {
+        UnifyResponseVO result = new UnifyResponseVO();
+        result.setRequest(getSimpleRequest(request));
+        String errorMessage = CodeMessageConfiguration.getMessage(10160);
+        if (StrUtil.isBlank(errorMessage)) {
+            result.setMessage(exception.getMessage());
+        } else {
+            result.setMessage(exception.getValue() + errorMessage);
+        }
+        result.setCode(Code.PARAMETER_ERROR.getCode());
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         return result;
     }
