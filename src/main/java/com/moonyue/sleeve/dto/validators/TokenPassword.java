@@ -7,15 +7,11 @@ import java.lang.annotation.*;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
+@Target({ElementType.FIELD, ElementType.TYPE})
 @Constraint(validatedBy = TokenPasswordValidator.class)
 public @interface TokenPassword {
 
-    int min() default 3;
-
-    int max() default 32;
-
-    String message() default "字段不符合要求";
+    String message() default "password must not be empty";
 
     Class<?>[] groups() default {};
 

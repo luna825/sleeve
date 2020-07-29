@@ -1,15 +1,15 @@
 package com.moonyue.sleeve.api.v1;
 
 
+import com.moonyue.sleeve.core.LocalUser;
+import com.moonyue.sleeve.core.annotations.ScopeLevel;
 import com.moonyue.sleeve.model.Coupon;
 import com.moonyue.sleeve.service.CouponService;
 import com.moonyue.sleeve.vo.CouponPureVO;
+import com.moonyue.sleeve.vo.CreatedVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Positive;
 import java.util.List;
@@ -38,4 +38,13 @@ public class CouponController {
                 .map(CouponPureVO::new)
                 .collect(Collectors.toList());
     }
+
+    @PostMapping("collect/{id}")
+    @ScopeLevel()
+    public CreatedVO collect(@PathVariable(name = "id") @Positive Long couponId){
+        Long uid = LocalUser.getUser().getId();
+        this.couponService.collectOneCoupon(uid, couponId);
+        return new CreatedVO("领取优惠券成功");
+    }
+
 }

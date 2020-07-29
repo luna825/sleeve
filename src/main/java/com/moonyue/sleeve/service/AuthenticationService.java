@@ -4,7 +4,10 @@ import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.moonyue.sleeve.common.util.JwtToken;
+import com.moonyue.sleeve.core.exception.ForbiddenException;
 import com.moonyue.sleeve.core.exception.ParameterException;
+import com.moonyue.sleeve.dto.RegisterDTO;
+import com.moonyue.sleeve.dto.TokenGetDTO;
 import com.moonyue.sleeve.model.User;
 import com.moonyue.sleeve.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +21,16 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class WxAuthenticationServer {
+public class AuthenticationService {
 
     @Autowired
     private ObjectMapper objectMapper;
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
 
     @Value("${wx.appid}")
     private String appId;
@@ -34,6 +40,11 @@ public class WxAuthenticationServer {
 
     @Value("${wx.code2session}")
     private String code2SessionUrl;
+
+    public String getTokenByNickname(TokenGetDTO dto){
+        User user = userService.verifyNicknamePassword(dto.getAccount(), dto.getPassword());
+        return JwtToken.makeToken(user.getId());
+    }
 
     public String code2Session(String code){
         String url = MessageFormat.format(code2SessionUrl, appId, appSecret, code);

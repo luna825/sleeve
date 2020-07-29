@@ -1,26 +1,24 @@
 package com.moonyue.sleeve.dto.validators;
 
 import cn.hutool.core.util.StrUtil;
+import com.moonyue.sleeve.core.bean.LoginType;
+import com.moonyue.sleeve.dto.TokenGetDTO;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class TokenPasswordValidator implements ConstraintValidator<TokenPassword, String> {
+public class TokenPasswordValidator implements ConstraintValidator<TokenPassword, TokenGetDTO> {
 
-    private int min;
-    private int max;
 
     @Override
-    public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        if(StrUtil.isEmpty(s)){
+    public boolean isValid(TokenGetDTO tokenGetDTO, ConstraintValidatorContext constraintValidatorContext) {
+        String password = tokenGetDTO.getPassword();
+        if(StrUtil.isEmpty(password)
+                && tokenGetDTO.getLoginType() == LoginType.USER_WX
+        ){
             return true;
         }
-        return s.length() <= max && s.length() >= min;
+        return StrUtil.isNotBlank(password);
     }
 
-    @Override
-    public void initialize(TokenPassword constraintAnnotation) {
-        this.max = constraintAnnotation.max();
-        this.min = constraintAnnotation.min();
-    }
 }

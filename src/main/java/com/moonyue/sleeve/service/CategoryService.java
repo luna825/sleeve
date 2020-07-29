@@ -33,4 +33,5 @@ public class CategoryService {
     public List<GridCategory> getGridCategory(){
         return this.gridCategoryRepository.findAll();
     }
+
 }

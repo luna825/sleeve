@@ -17,7 +17,6 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = PasswordValidator.class)
 public @interface PasswordEqual {
 
-    int Min() default 3;
 
     String message() default "passwords are not equal.";
 

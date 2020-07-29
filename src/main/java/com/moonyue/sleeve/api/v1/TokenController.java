@@ -6,7 +6,7 @@ import com.moonyue.sleeve.core.exception.NotFoundException;
 import com.moonyue.sleeve.dto.TokenDTO;
 import com.moonyue.sleeve.dto.TokenGetDTO;
 import com.moonyue.sleeve.model.TestUser;
-import com.moonyue.sleeve.service.WxAuthenticationServer;
+import com.moonyue.sleeve.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +24,7 @@ import java.util.Map;
 public class TokenController {
 
     @Autowired
-    private WxAuthenticationServer wxAuthenticationServer;
+    private AuthenticationService authenticationService;
 
     @PostMapping("")
     public Map<String, String> getToken(@RequestBody @Valid TokenGetDTO dto){
@@ -32,16 +32,10 @@ public class TokenController {
         String token = null;
         switch (dto.getLoginType()){
             case USER_WX:
-                token = wxAuthenticationServer.code2Session(dto.getAccount());
+                token = authenticationService.code2Session(dto.getAccount());
                 break;
-            case USER_EMAIL:
-                break;
-            case USER_TEST:
-                TestUser testUser = new TestUser.Builder()
-                        .setUsername(dto.getAccount())
-                        .setPassword(dto.getPassword())
-                        .build();
-                token = testUser.generateToken();
+            case USER_NAME:
+                token = authenticationService.getTokenByNickname(dto);
                 break;
             default:
                 throw new NotFoundException(10003);

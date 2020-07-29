@@ -3,6 +3,9 @@ package com.moonyue.sleeve.api.v1;
 
 import com.moonyue.sleeve.core.exception.NotFoundException;
 import com.moonyue.sleeve.dto.PersonDTO;
+import com.moonyue.sleeve.vo.CreatedVO;
+import com.moonyue.sleeve.vo.DeletedVO;
+import com.moonyue.sleeve.vo.UpdatedVO;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +39,21 @@ public class TestApiController {
         System.out.println(id);
         System.out.println(name);
         return p;
+    }
+
+    @PostMapping("/aspect/created")
+    public CreatedVO created(){
+        return new CreatedVO(11);
+    }
+
+    @PostMapping("/aspect/updated")
+    public UpdatedVO updated(){
+        return new UpdatedVO("uuuuuu");
+    }
+
+    @PostMapping("/aspect/deleted")
+    public DeletedVO deleted(){
+        return new DeletedVO("ddddddd");
     }
 
 }
