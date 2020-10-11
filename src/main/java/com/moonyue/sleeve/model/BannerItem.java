@@ -2,6 +2,7 @@ package com.moonyue.sleeve.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.Date;
 @Entity
 @Setter
 @Getter
+@Where(clause = "delete_time is null")
 public class BannerItem extends BaseEntity {
     @Id
     private Long id;

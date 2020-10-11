@@ -2,6 +2,7 @@ package com.moonyue.sleeve.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -13,6 +14,7 @@ import java.util.Objects;
 @Entity
 @Setter
 @Getter
+@Where(clause = "delete_time is null")
 public class Coupon extends BaseEntity {
     @Id
     private Long id;

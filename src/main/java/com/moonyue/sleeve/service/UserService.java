@@ -1,9 +1,8 @@
 package com.moonyue.sleeve.service;
 
 import cn.hutool.core.util.StrUtil;
-import com.moonyue.sleeve.common.util.EncryptUtil;
+import com.moonyue.sleeve.core.exception.AuthenticationException;
 import com.moonyue.sleeve.core.exception.ForbiddenException;
-import com.moonyue.sleeve.core.exception.NotFoundException;
 import com.moonyue.sleeve.dto.RegisterDTO;
 import com.moonyue.sleeve.model.User;
 import com.moonyue.sleeve.repository.UserRepository;
@@ -42,11 +41,11 @@ public class UserService {
 
     public User verifyNicknamePassword(String nickname, String password){
         User user = this.userRepository.findFirstByNickname(nickname)
-                .orElseThrow(() -> new ForbiddenException(20005));
+                .orElseThrow(() -> new AuthenticationException(20005));
 
         Boolean isValid = user.verifyPassword(password);
         if(!isValid){
-            throw new ForbiddenException(20005);
+            throw new AuthenticationException(20005);
         }
         return user;
     }

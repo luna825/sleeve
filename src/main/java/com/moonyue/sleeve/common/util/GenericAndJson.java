@@ -17,7 +17,7 @@ public class GenericAndJson {
         GenericAndJson.mapper = mapper;
     }
 
-    public static <T> String ObjectToJson(T t){
+    public static <T> String objectToJson(T t){
         try {
             return GenericAndJson.mapper.writeValueAsString(t);
         } catch (JsonProcessingException e) {
@@ -26,7 +26,7 @@ public class GenericAndJson {
         }
     }
 
-    public static <T> T JsonToObject(String s, TypeReference<T> tr){
+    public static <T> T jsonToObject(String s, TypeReference<T> tr){
         if(s==null){
             return null;
         }

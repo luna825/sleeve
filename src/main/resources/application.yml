@@ -12,3 +12,6 @@ spring:
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: true
 
+sleeve:
+  year-codes: A,B,C,D,E,F,J,H #从2020年开始 A 2020 B 2021 C 2020
+

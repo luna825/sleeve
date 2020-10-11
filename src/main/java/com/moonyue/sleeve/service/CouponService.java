@@ -10,13 +10,11 @@ import com.moonyue.sleeve.model.UserCoupon;
 import com.moonyue.sleeve.repository.ActivityRepository;
 import com.moonyue.sleeve.repository.CouponRepository;
 import com.moonyue.sleeve.repository.UserCouponRepository;
-import com.moonyue.sleeve.vo.CouponPureVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CouponService {
@@ -40,6 +38,21 @@ public class CouponService {
         return this.couponRepository.findByWholeStore(true, now);
     }
 
+    public List<Coupon> getMyAvailableCoupons(Long uid){
+        Date now = new Date();
+        return this.couponRepository.findMyAvailable(uid, now);
+    }
+
+    public List<Coupon> getMyUsedCoupons(Long uid){
+        Date now = new Date();
+        return this.couponRepository.findMyUsed(uid, now);
+    }
+
+    public List<Coupon> getMyExpiredCoupons(Long uid){
+        Date now = new Date();
+        return this.couponRepository.findMyExpired(uid, now);
+    }
+
     public void collectOneCoupon(Long uid, Long couponId){
         this.couponRepository.findById(couponId).orElseThrow(()->new NotFoundException(40004));
         Activity activity = this.activityRepository.findByCouponListId(couponId)
@@ -61,4 +74,5 @@ public class CouponService {
                 .build();
         this.userCouponRepository.save(userCoupon);
     }
+
 }
